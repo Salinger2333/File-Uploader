@@ -7,7 +7,7 @@
     "db:generate": "npx prisma generate",
     "db:migrate": "npx prisma migrate dev",
     "db:studio": "npx prisma studio",
-    "dev": "node app.js"
+    "dev": "node app.js --watch"
   },
   "keywords": [],
   "author": "",
