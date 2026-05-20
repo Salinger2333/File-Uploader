@@ -1,17 +1,15 @@
-import expressSession from 'express-session';
-import express from 'express';
+import expressSession from "express-session";
+import express from "express";
+import path from "path";
+import { fileURLToPath } from "url";
 import "dotenv/config";
-import { PrismaPg } from "@prisma/adapter-pg";  
-import { PrismaClient } from "../../generated/prisma/client";
-import { PrismaSessionStore } from '@quixo3/prisma-session-store';
-import passport from 'passport';
+import { prisma } from "./lib/prisma.js";
+import { PrismaSessionStore } from "@quixo3/prisma-session-store";
+import passport from "passport";
+import indexRouter from "./routes/index.js";
+import "./lib/passport.js";
 
-const LocalStrategy = require('passport-local').Strategy;
-
-const connectionString = `${process.env.DATABASE_URL}`;
-const adapter = new PrismaPg({ connectionString });
-const prisma = new PrismaClient({ adapter });
-
+const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const app = express();
 app.set("views", path.join(__dirname, "views"));
 app.set("view engine", "ejs");
@@ -38,10 +36,11 @@ app.use(
 app.use(passport.session());
 app.use(express.urlencoded({ extended: false }));
 
+app.use("/", indexRouter);
+
 app.listen(3000, (error) => {
   if (error) {
     throw error;
   }
   console.log("app listening on port 3000!");
 });
-
