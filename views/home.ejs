@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Home</title>
+</head>
+<body>
+  <h1>Welcome, <%= user.username %></h1>
+  <a href="/auth/logout">Logout</a>
+
+  <h2>Folders</h2>
+  <% if (folders.length === 0) { %>
+    <p>No folders yet.</p>
+  <% } else { %>
+    <ul>
+      <% folders.forEach(function(folder) { %>
+        <li>
+          <a href="/folder/<%= folder.id %>"><%= folder.name %></a>
+          <span>(<%= folder.files.length %> files)</span>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+  <a href="/folder/create">Create Folder</a>
+
+  <h2>Files</h2>
+  <% if (files.length === 0) { %>
+    <p>No files yet.</p>
+  <% } else { %>
+    <ul>
+      <% files.forEach(function(file) { %>
+        <li>
+          <a href="/file/<%= file.id %>"><%= file.name %></a>
+          <span>(<%= (file.size / 1024).toFixed(1) %> KB)</span>
+          <span>— <%= file.createdAt.toLocaleString() %></span>
+        </li>
+      <% }) %>
+    </ul>
+  <% } %>
+  <a href="/upload">Upload File</a>
+</body>
+</html>
